@@ -1,0 +1,23 @@
+MDFloatLayout:
+        MDLabel:
+            id: label_add1
+            text: "Главный вывод"
+            size_hint: 0.6, 0.75
+            pos_hint: {"x": 0.1, 'y': 0.21}
+            background_color: (0, 0, 0, 0.8)
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        MDIconButton:
+            icon: "Icons kivy/sprout-outline black.png"
+            pos_hint: {"x": 0.5, 'y': 0.15}
+            icon_size: "64sp"
+            on_press: app.presss()
+
+        MDFloatingActionButtonSpeedDial:
+            data: app.data
+            root_button_anim: True

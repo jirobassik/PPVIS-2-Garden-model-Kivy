@@ -1,0 +1,165 @@
+<TooltipMDFloatingActionButton@MDFloatingActionButton+MDTooltip>
+
+MDScreen:
+
+    MDBottomNavigation:
+        panel_color: .2, .2, .2, 1
+        text_color_normal: 0, 0, 0, 1
+        text_color_active: 24/255.0, 185/255.0, 38/255.0, 0.8
+        elected_color_background: 0, 0, 1, .4
+
+        MDBottomNavigationItem:
+            name: 'screen 1'
+            text: 'Сад'
+            icon: "leaf"
+
+            MDFloatLayout:
+
+                MDIcon:
+                    icon: "calendar-week"
+                    font_size: dp(120)
+                    #pos: self.parent.pos
+                    #size: self.parent.size
+                    pos_hint: {"x": 0.68, 'y': 0.36}
+
+                MDLabel:
+                    id: label_add1
+                    text: "1"
+                    halign: 'center'
+                    valign: 'bottom'
+                    size_hint: 0.11, 0.04
+                    pos_hint: {"x": 0.745, 'y': 0.808}
+                    background_color: (1, 1, 1, 1)
+
+                Image:
+                    id: loading_animation_gif
+                    source: 'Drought.zip'
+                    size_hint: 0.6, 0.2
+                    pos_hint: {"x": 0.5, 'y': 0.54}
+                    anim_delay: 0.2
+
+                Image:
+                    id: loading_animation_gif2
+                    source: 'Sun.zip'
+                    size_hint: 0.6, 0.2
+                    pos_hint: {"x": 0.5, 'y': 0.35}
+                    anim_delay: 0.15
+
+                MDLabel:
+                    id: label_add1
+                    text: "Главный вывод"
+                    halign: 'left'
+                    valign: 'bottom'
+                    size_hint: 0.6, 0.75
+                    pos_hint: {"x": 0.08, 'y': 0.21}
+                    background_color: (0, 0, 0, 0.8)
+                    canvas.before:
+                        Color:
+                            rgba: self.background_color
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+                MDFillRoundFlatIconButton:
+                    text: 'Продолжить симуляцию сада'
+                    icon: "sprout-outline"
+                    pos_hint: {"x": 0.2, 'y': 0.035}
+                    size_hint: 0.6, 0.1
+                    on_press: app.gif_cloudy(); app.gif_rain(); app.build_card()
+
+                MDFloatingActionButtonSpeedDial:
+                    data: app.data
+                    data:
+                        {'Посадка': 'seed-outline',
+                        'Полив': 'watering-can-outline',
+                        'Удобрение': 'spray',
+                        'Прополка': 'rake'}
+                    root_button_anim: True
+                    callback: app.callback
+                    bg_color_stack_button: 24/255.0, 185/255.0, 38/255.0, 0.8
+                    bg_color_root_button: 24/255.0, 185/255.0, 38/255.0, 0.7
+                    bg_hint_color: 239/255.0, 100/255.0, 12/255.0, 0.8
+
+                TooltipMDFloatingActionButton:
+                    icon: "close-box"
+                    tooltip_text: "Очистка экрана"
+                    pos_hint: {"x": 0.05, 'y': 0.035}
+
+
+        MDBottomNavigationItem:
+            name: 'screen 2'
+            text: 'Урожай'
+            icon: 'barn'
+
+            MDBoxLayout:
+                orientation: "vertical"
+                spacing: "10dp"
+
+                MDToolbar:
+                    elevation: 10
+                    title: "Урожай"
+
+                ScrollView:
+                    MDList:
+                        id: md_list
+                        padding: 0
+
+
+        MDBottomNavigationItem:
+            name: 'screen 3'
+            text: 'История'
+            icon: 'history'
+
+            ScrollView:
+                #size_hint_y: 1
+                #size_hint_x: 0.9
+                #size_hint: (None, None)
+                #size: (1050, 500)
+                #pos_hint: {"x": 0.17, 'y': 0.3}
+                MDLabel:
+                    id: main
+                    text: "sadadsafsdfdsfsdfsdfsdfsdf" * 100
+                    #halign: 'left'
+                    #valign: 'top'
+                    size_hint_x: 1.0
+                    size_hint_y: None
+                    text_size: self.width, None
+                    height: self.texture_size[1]
+
+<ContentForNewWindow>:
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "120dp"
+    MDTextField:
+        id: field
+        hint_text: "Введите растение для посадки"
+
+
+<IconListItem>:
+    IconLeftWidget:
+        icon: root.icon
+
+
+<CreateItem>:
+    size_hint_y: None
+    height: content.height
+
+    MDCardSwipeLayerBox:
+        # Content under the card.
+
+    MDCardSwipeFrontBox:
+
+        # Content of card.
+        OneLineListItem:
+            id: content
+            text: root.text
+            _no_ripple_effect: True
+
+
+
+
+
+
+
+
