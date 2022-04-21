@@ -70,10 +70,10 @@ class Narcissus(Plants):
         return self.limit_weather_cond_d
 
     def watering(self) -> None:
-        self.weather_cond += 0.25
+        self.weather_cond += 0.1
 
     def drought(self) -> None:
-        self.weather_cond -= 0.25
+        self.weather_cond -= 0.1
 
     def set_weather_cond(self, num: float) -> None:
         if self.weather_cond > 0:
