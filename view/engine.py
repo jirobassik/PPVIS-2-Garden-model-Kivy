@@ -26,6 +26,7 @@ class MyMainApp(MDApp):
         super().__init__(**kwargs)
         self.root_widget = Builder.load_file("engine.kv")
         self.check = False
+        self.snackbar = None
         self.i = 0
         self.dat = -1
 

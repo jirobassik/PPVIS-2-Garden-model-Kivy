@@ -12,16 +12,17 @@ while True:
         case ">":
             write_in_file(">")
             keyboard.send("ctrl+l")
-            print('Номер недели, природные явления, состояние погоды:')
-            write_in_file('Номер недели, природные явления, состояние погоды:')
-            Garden.change_week()
-            Garden.long_watering_drought()
-            print()
-            Garden.check_weather_cond()
-            Garden.grow_all()
-            Garden.grow_weed()
-            Garden.are_all_ripe(1)
-            Garden.choice_collect_harvest()
+            if not Garden.check_length():
+                print('Номер недели, природные явления, состояние погоды:')
+                write_in_file('Номер недели, природные явления, состояние погоды:')
+                Garden.change_week()
+                Garden.long_watering_drought()
+                print()
+                Garden.check_weather_cond()
+                Garden.grow_all()
+                Garden.grow_weed()
+                Garden.are_all_ripe(1)
+                Garden.choice_collect_harvest()
             print('\nВзаимодействия с грядкой:\nДля прополки грядки нажмите /\nДля удобрения грядки нажмите }'
                   '\nДля полива грядки нажмите {\nДля посадки нового растения нажмите *'
                   '\nДля просмотра урожая нажмите p\nДля просмотра истории нажмите h')

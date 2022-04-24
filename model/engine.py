@@ -19,13 +19,30 @@ from model.entity.mandarin import Mandarin
 from utility.collect_data import Data
 
 
-def rand_list_plants(mas_plant: list) -> list:
+def rand_list_plants() -> list:
     list_plants = []
+    mas_plant = init_new_plants()
     for i in mas_plant:
         el1 = mas_plant.index(i)
         el2 = random.randint(0, 2)
         list_plants.append(mas_plant[el1][el2])
     return list_plants
+
+
+def init_new_plants() -> list:
+    potato = Potato()
+    cucumber = Cucumber()
+    tomato = Tomato()
+    chamomile = Chamomile()
+    narcissus = Narcissus()
+    rose = Rose()
+    apple = Apple()
+    pear = Pear()
+    mandarin = Mandarin()
+
+    mas_plant = [[potato, cucumber, tomato], [chamomile, narcissus, rose], [apple, pear, mandarin]]
+    return mas_plant
+
 
 class EngineGarden:
     _plants: List[Plants] = []
@@ -41,20 +58,8 @@ class EngineGarden:
     choose_plant = 0
     plant_die = 0
 
-    potato = Potato()
-    cucumber = Cucumber()
-    tomato = Tomato()
-    chamomile = Chamomile()
-    narcissus = Narcissus()
-    rose = Rose()
-    apple = Apple()
-    pear = Pear()
-    mandarin = Mandarin()
-
-    mas_plants = [[potato, cucumber, tomato], [chamomile, narcissus, rose], [apple, pear, mandarin]]
-
     def __init__(self) -> None:
-        self.list_of_plants = rand_list_plants(self.mas_plants)
+        self.list_of_plants = rand_list_plants()
         self.check_notify = False
         self.check_notify_harvest = False
         self.notify_data = ""
@@ -69,7 +74,7 @@ class EngineGarden:
         for i in self.list_of_plants:
             self._plants.append(i)
 
-#-------------Методы для View--------------
+    # -------------Методы для View--------------
     def get_week(self):
         return self.week
 
@@ -148,7 +153,8 @@ class EngineGarden:
 
     @staticmethod
     def get_history():
-        a_file = open('D:\Programs\PyCharm Community Edition 2021.2.3\Project\PPVIS4\model\data history\history.txt', 'r')
+        a_file = open('D:\Programs\PyCharm Community Edition 2021.2.3\Project'
+                      '\PPVIS4\model\data history\history.txt', 'r')
         file_content = a_file.read()
         a = str(file_content)
         a += "\n"
@@ -159,7 +165,7 @@ class EngineGarden:
         f = open('D:\Programs\PyCharm Community Edition 2021.2.3\Project\PPVIS4\model\data history\history.txt', 'w')
         f.close()
 
-#-------------Методы для View--------------
+    # -------------Методы для View--------------
 
     def get_plants(self) -> list:
         return self._plants
@@ -171,6 +177,16 @@ class EngineGarden:
     def get_harvest(self):
         return self.harvest
 
+    @staticmethod
+    def check_length():
+        if len(Garden.get_plants()) == 0:
+            print("Грядка пустая, посадите растение")
+            Garden.set_notify_data("Грядка пустая, посадите растение")
+            Garden.set_check_notify(True)
+            return True
+        else:
+            return False
+
     def restart(self):
         print("Возобновление симуляции, будут посажены новые растени, а сорники уничтожены")
         write_in_file("Возобновление симуляции, будут посажены новые растени, а сорники уничтожены")
@@ -179,21 +195,38 @@ class EngineGarden:
         self.weeding()
         self.add_new_rand_plants(3)
 
-    def add_new_rand_plants(self, num_plants: int):
+    @staticmethod
+    def add_new_rand_plants(num_plants: int):
+        mas_plants = init_new_plants()
         for i in range(0, num_plants):
             el1 = random.randint(0, 2)
             el2 = random.randint(0, 2)
-            if self.mas_plants[el1][el2] in Garden.get_plants():
-                print('Растение нельзя посадить, так как оно уже есть на грядке')
-                write_in_file('Растение нельзя посадить, так как оно уже есть на грядке')
-                continue
-            else:
-                Garden.get_plants().append(self.mas_plants[el1][el2])
+            if len(Garden.get_plants()) > 0:
+                for plants in Garden.get_plants():
+                    if mas_plants[el1][el2].get_name() == plants.get_name():
+                        print(f'{mas_plants[el1][el2].get_name()} нельзя посадить, так как оно уже есть на грядке')
+                        write_in_file('Растение нельзя посадить, так как оно уже есть на грядке')
+                        break
+                    elif Garden.get_plants().index(plants) == len(Garden.get_plants()) - 1:
+                        Garden.get_plants().append(mas_plants[el1][el2])
+                        print(f"Посажено новое растение: "
+                              f"{Garden.get_plants()[len(Garden.get_plants()) - 1].get_name()}")
+                        write_in_file(
+                            f"Посажено новое растение: {Garden.get_plants()[len(Garden.get_plants()) - 1].get_name()}")
+                        Garden.set_notify_data(f"Посажено новое растение: "
+                                               f"{Garden.get_plants()[len(Garden.get_plants()) - 1].get_name()}")
+                        Garden.set_check_notify(True)
+                        Garden.set_chance_ill(0)
+                        break
+            elif len(Garden.get_plants()) == 0:
+                Garden.get_plants().append(mas_plants[el1][el2])
                 print(f"Посажено новое растение: {Garden.get_plants()[len(Garden.get_plants()) - 1].get_name()}")
                 write_in_file(
                     f"Посажено новое растение: {Garden.get_plants()[len(Garden.get_plants()) - 1].get_name()}")
-                Garden.set_notify_data(f"Посажено новое растение: {Garden.get_plants()[len(Garden.get_plants()) - 1].get_name()}")
+                Garden.set_notify_data(f"Посажено новое растение: "
+                                       f"{Garden.get_plants()[len(Garden.get_plants()) - 1].get_name()}")
                 Garden.set_check_notify(True)
+                Garden.set_chance_ill(0)
 
     @staticmethod
     def grow_all() -> None:
@@ -250,9 +283,10 @@ class EngineGarden:
             Garden.set_check_notify(True)
             for plants in list_plant:
                 Garden.get_plants().remove(plants)
+            Garden.set_chance_ill(0)
             self.restart()
 
-    def check_ill(self) -> None:
+    def check_ill(self) -> None:  # Проблемы
         if self.ill_die_status == 0:
             if self.chance_ill > 30:
                 if len(Garden.get_plants()) >= 2:
@@ -267,12 +301,15 @@ class EngineGarden:
                     self.plant_die = Garden.get_plants()[self.choose_plant]
         elif 1 <= self.ill_die_status < 3:
             self.ill_die_status += 1
+        if self.plant_die not in Garden.get_plants():
+            self.ill_die_status = 0
         elif self.ill_die_status >= 3:
             print(f'{self.plant_die.get_name()} погибает из-за болезни')
             write_in_file(f'{self.plant_die.get_name()} погибает из-за болезни')
             Garden.set_notify_data(f'{self.plant_die.get_name()} погибает из-за болезни')
             Garden.set_check_notify(True)
             Garden.get_plants().remove(self.plant_die)
+            Garden.set_chance_ill(0)
             self.ill_die_status = 0
 
     def set_sum_chance_ill(self, chance_ill: int) -> None:
@@ -295,6 +332,7 @@ class EngineGarden:
             write_in_file('Вы решили прополоть грядку без сорников, все растения погибают')
             Garden.set_notify_data('Вы решили прополоть грядку без сорников, все растения погибают')
             Garden.set_check_notify(True)
+            Garden.set_chance_ill(0)
             for plants in list_plant:
                 Garden.get_plants().remove(plants)
 

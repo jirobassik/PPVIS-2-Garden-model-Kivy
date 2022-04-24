@@ -3,12 +3,13 @@ class EngineController:
         self.model = model
 
     def press_main_button(self):
-        self.model.change_week()
-        self.model.long_watering_drought()
-        self.model.check_weather_cond()
-        self.model.grow_all()
-        self.model.grow_weed()
-        self.model.are_all_ripe(2)
+        if not self.model.check_length():
+            self.model.change_week()
+            self.model.long_watering_drought()
+            self.model.check_weather_cond()
+            self.model.grow_all()
+            self.model.grow_weed()
+            self.model.are_all_ripe(2)
 
     def collect_harvest(self):
         self.model.choice_collect_harvest()
