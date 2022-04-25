@@ -70,6 +70,7 @@ class EngineGarden:
         self.duration = None
         self.strings = ""
         self.harv = ""
+        self.name_image = ""
 
         for i in self.list_of_plants:
             self._plants.append(i)
@@ -123,6 +124,12 @@ class EngineGarden:
     def set_strings(self, strings):
         self.strings = strings
 
+    def set_image_for_plants(self, name):
+        self.name_image = name
+
+    def get_image_for_plants(self):
+        return self.name_image
+
     @staticmethod
     def notify(view):
         if Garden.get_check_notify():
@@ -149,7 +156,7 @@ class EngineGarden:
     @staticmethod
     def build_data_card(num):
         dat = list(Garden.get_harvest().items())[num]
-        return str(dat)
+        return dat
 
     @staticmethod
     def get_history():
@@ -172,6 +179,7 @@ class EngineGarden:
 
     def collect_harvest(self, plants, num_harvest: int) -> dict:
         self.harvest.update({plants.get_name(): [num_harvest]})
+        Garden.set_image_for_plants(plants.get_name())
         return self.harvest
 
     def get_harvest(self):

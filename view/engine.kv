@@ -18,8 +18,6 @@ MDScreen:
                 MDIcon:
                     icon: "calendar-week"
                     font_size: dp(120)
-                    #pos: self.parent.pos
-                    #size: self.parent.size
                     pos_hint: {"x": 0.68, 'y': 0.36}
 
                 MDLabel:
@@ -120,16 +118,9 @@ MDScreen:
             icon: 'history'
 
             ScrollView:
-                #size_hint_y: 1
-                #size_hint_x: 0.9
-                #size_hint: (None, None)
-                #size: (1050, 500)
-                #pos_hint: {"x": 0.17, 'y': 0.3}
                 MDLabel:
                     id: history
                     text: ""
-                    #halign: 'left'
-                    #valign: 'top'
                     size_hint_x: 1.0
                     size_hint_y: None
                     text_size: self.width, None
@@ -144,14 +135,20 @@ MDScreen:
     size_hint_y: None
     height: content.height
 
-    MDCardSwipeLayerBox:
-        # Content under the card.
-
     MDCardSwipeFrontBox:
         # Content of card.
-        OneLineListItem:
+
+
+        FitImage:
+            id: plant
+            source: root.source
+            size_hint: 0.25, 0.8
+
+        ThreeLineListItem:
             id: content
             text: root.text
+            secondary_text: root.text_2
+            tertiary_text: root.text_3
             _no_ripple_effect: True
 
 

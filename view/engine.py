@@ -9,13 +9,17 @@ from kivymd.uix.dialog import MDDialog
 from controller.engine import EngineController
 from model.engine import Garden
 
-
 controller = EngineController(Garden)
 
 Window.size = (500, 600)
 
+
 class CreateItem(Screen):
     text = StringProperty()
+    text_2 = StringProperty()
+    text_3 = StringProperty()
+    source = StringProperty()
+
 
 class MyMainApp(MDApp):
     dialog = None
@@ -29,6 +33,12 @@ class MyMainApp(MDApp):
         self.snackbar = None
         self.i = 0
         self.dat = -1
+        self.source_mas = ['Grass/Grass1.png', 'Grass/Grass2.png', 'Grass/Grass3.png', 'Grass/Grass4.png',
+                           'Grass/Grass5.png', 'Grass/Grass1.png']
+        self.source_image = ['Яблоня', 'Огурец', 'Мандарины', 'Груша', 'Картофель', 'Помидор']
+        self.mas = ["5", "4", "3", "2", "1"]
+        self.mas_coord = [{"x": 0.713, 'y': 0.165}, {"x": 0.713, 'y': 0.17}, {"x": 0.713, 'y': 0.176},
+                          {"x": 0.713, 'y': 0.183}, {"x": 0.713, 'y': 0.195}]
 
     def build(self):
         self.theme_cls.primary_palette = "Green"
@@ -85,7 +95,7 @@ class MyMainApp(MDApp):
                 ],
             )
         self.dialog_harvest.open()
-        
+
     def close_dialog(self, *args):
         self.dialog.dismiss(force=True)
 
@@ -140,10 +150,27 @@ class MyMainApp(MDApp):
         self.dialog.text = Garden.notify_data
 
     def build_card(self, *args):
-        self.root_widget.ids.md_list.add_widget(CreateItem(text=self.build_data_card()))
+        self.root_widget.ids.md_list.add_widget(CreateItem(text=self.build_data_card(),
+                                                           text_2=self.build_data_card_2(),
+                                                           text_3=self.build_data_card_3(),
+                                                           source=self.choose_image(Garden.get_image_for_plants())))
 
     def build_data_card(self, *args):
-        dat = f"Неделя: {str(Garden.get_week())} - {str(Garden.build_data_card(self.dat))}"
+        dat = f"{str(Garden.build_data_card(self.dat)[0])}"
+        return dat
+
+    def build_data_card_2(self, *args):
+        dat = f"Количество: {str(Garden.build_data_card(self.dat)[1][0])}"
+        return dat
+
+    def choose_image(self, text):
+        if text in self.source_image:
+            source = self.source_mas[self.source_image.index(text)]
+        return source
+
+    @staticmethod
+    def build_data_card_3(*args):
+        dat = f"Неделя: {str(Garden.get_week())}"
         return dat
 
     def change_history(self):
@@ -157,10 +184,6 @@ class MyMainApp(MDApp):
         self.root.ids.label_add1.text = Garden.get_data()
 
     def change_image_grass(self):
-        mas = ["5", "4", "3", "2", "1"]
-        mas_coord = [{"x": 0.713, 'y': 0.165}, {"x": 0.713, 'y': 0.17}, {"x": 0.713, 'y': 0.176},
-                     {"x": 0.713, 'y': 0.183}, {"x": 0.713, 'y': 0.195}]
-
         if 0 <= Garden.get_grow_weed() < 20:
             self.i = 0
         elif 20 <= Garden.get_grow_weed() < 40:
@@ -174,8 +197,8 @@ class MyMainApp(MDApp):
         elif Garden.get_grow_weed() > 100:
             self.i = 4
 
-        self.root.ids.grass_image.source = f'Grass/Grass{mas[self.i]}.png'
-        self.root.ids.grass_image.pos_hint = mas_coord[self.i]
+        self.root.ids.grass_image.source = f'Grass/Grass{self.mas[self.i]}.png'
+        self.root.ids.grass_image.pos_hint = self.mas_coord[self.i]
 
     def gif_drought(self):
         self.root.ids.loading_animation_gif.source = 'Gif/Drought.zip'
