@@ -33,8 +33,8 @@ class MyMainApp(MDApp):
         self.snackbar = None
         self.i = 0
         self.dat = -1
-        self.source_mas = ['Grass/Grass1.png', 'Grass/Grass2.png', 'Grass/Grass3.png', 'Grass/Grass4.png',
-                           'Grass/Grass5.png', 'Grass/Grass1.png']
+        self.source_mas = ['Plants/Яблоня.png', 'Plants/Огурец.png', 'Plants/Мандарины.png',
+                           'Plants/Груша.png', 'Plants/Картофель.png', 'Plants/Помидор.png']
         self.source_image = ['Яблоня', 'Огурец', 'Мандарины', 'Груша', 'Картофель', 'Помидор']
         self.mas = ["5", "4", "3", "2", "1"]
         self.mas_coord = [{"x": 0.713, 'y': 0.165}, {"x": 0.713, 'y': 0.17}, {"x": 0.713, 'y': 0.176},
