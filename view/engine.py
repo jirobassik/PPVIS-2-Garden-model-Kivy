@@ -33,9 +33,9 @@ class MyMainApp(MDApp):
         self.snackbar = None
         self.i = 0
         self.dat = -1
-        self.source_mas = ['Plants/Яблоня.png', 'Plants/Огурец.png', 'Plants/Мандарины.png',
-                           'Plants/Груша.png', 'Plants/Картофель.png', 'Plants/Помидор.png']
-        self.source_image = ['Яблоня', 'Огурец', 'Мандарины', 'Груша', 'Картофель', 'Помидор']
+        self.source = {'Яблоня': 'Plants/Яблоня.png', 'Огурец': 'Plants/Огурец.png',
+                       'Мандарины': 'Plants/Мандарины.png', 'Груша': 'Plants/Груша.png',
+                       'Картофель': 'Plants/Картофель.png', 'Помидор': 'Plants/Помидор.png'}
         self.mas = ["5", "4", "3", "2", "1"]
         self.mas_coord = [{"x": 0.713, 'y': 0.165}, {"x": 0.713, 'y': 0.17}, {"x": 0.713, 'y': 0.176},
                           {"x": 0.713, 'y': 0.183}, {"x": 0.713, 'y': 0.195}]
@@ -164,8 +164,8 @@ class MyMainApp(MDApp):
         return dat
 
     def choose_image(self, text):
-        if text in self.source_image:
-            source = self.source_mas[self.source_image.index(text)]
+        if text in self.source:
+            source = self.source[text]
         return source
 
     @staticmethod
