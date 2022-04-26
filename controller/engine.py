@@ -53,6 +53,12 @@ class EngineController:
     def clear_history(self):
         self.model.clear_old_history()
 
+    def set_pop_el(self):
+        self.model.set_pop_el()
+
+    def set_pop_el_for_image(self):
+        self.model.set_pop_el_for_image()
+
 
 
 

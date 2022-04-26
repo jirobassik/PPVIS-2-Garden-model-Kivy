@@ -41,25 +41,14 @@ while True:
         case "*":
             write_in_file("*")
             check = False
-            try:
-                num = int(input("Введите количество растений, которое вы хотите посадить, меньше 4: "))
-            except ValueError:
-                print("Вы ввели строку, а надо число")
-                check = True
-            if not check:
-                write_in_file(f"Введите количество растений, которое вы хотите посадить, меньше 4: {num}")
-                if 0 < num < 4:
-                    Garden.add_new_rand_plants(num)
-                else:
-                    print("Вы ввели неверное количество растений")
-                    write_in_file("Вы ввели неверное количество растений")
+            Garden.add_new_rand_plants(3)
         case "p":
-            if len(Garden.get_harvest()) == 0:
+            if len(Garden.get_dat()) == 0:
                 print("Урожая пока нет")
                 write_in_file("Урожая пока нет")
             else:
-                print(Garden.get_harvest())
-                write_in_file(Garden.get_harvest())
+                print(f"Урожай: {Garden.get_dat()}")
+                write_in_file(Garden.get_dat())
         case "h":
             f = open('D:\Programs\PyCharm Community Edition 2021.2.3\Project\PPVIS4\model\data history\history.txt')
             print(f.read())

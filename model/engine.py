@@ -70,7 +70,10 @@ class EngineGarden:
         self.duration = None
         self.strings = ""
         self.harv = ""
-        self.name_image = ""
+        self.name_image = []
+        self.dat = []
+        self.pop_el = None
+        self.pop_el_for_image = None
 
         for i in self.list_of_plants:
             self._plants.append(i)
@@ -125,10 +128,22 @@ class EngineGarden:
         self.strings = strings
 
     def set_image_for_plants(self, name):
-        self.name_image = name
+        self.name_image.append(name)
 
     def get_image_for_plants(self):
         return self.name_image
+
+    def set_pop_el_for_image(self):
+        self.pop_el_for_image = Garden.get_image_for_plants().pop(0)
+
+    def get_pop_el_for_image(self):
+        return self.pop_el_for_image
+
+    def set_pop_el(self):
+        self.pop_el = Garden.get_dat().pop(0)
+
+    def get_pop_el(self):
+        return self.pop_el
 
     @staticmethod
     def notify(view):
@@ -153,10 +168,8 @@ class EngineGarden:
     def set_data(data):
         Data.set_string(data)
 
-    @staticmethod
-    def build_data_card(num):
-        dat = list(Garden.get_harvest().items())[num]
-        return dat
+    def build_data_card(self):
+        self.dat.append(list(Garden.get_harvest().popitem()))
 
     @staticmethod
     def get_history():
@@ -177,10 +190,13 @@ class EngineGarden:
     def get_plants(self) -> list:
         return self._plants
 
-    def collect_harvest(self, plants, num_harvest: int) -> dict:
+    def get_dat(self):
+        return self.dat
+
+    def collect_harvest(self, plants, num_harvest: int):
         self.harvest.update({plants.get_name(): [num_harvest]})
         Garden.set_image_for_plants(plants.get_name())
-        return self.harvest
+        self.build_data_card()
 
     def get_harvest(self):
         return self.harvest
@@ -494,8 +510,8 @@ class EngineGarden:
                                 check = True
                                 write_in_file("Да")
                                 EngineGarden.collect_harvest(self, plants, plants.num_harvest)
-                                print(f"Урожай: {Garden.get_harvest()}")
-                                write_in_file(f"Урожай: {Garden.get_harvest()}")
+                                print(f"Урожай: {Garden.get_dat()}")
+                                write_in_file(f"Урожай: {Garden.get_dat()}")
                                 print("Урожай был собран")
                                 write_in_file("Урожай был собран")
                                 Garden.get_plants().remove(plants)

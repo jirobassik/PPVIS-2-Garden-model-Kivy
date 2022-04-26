@@ -20,7 +20,6 @@ class CreateItem(Screen):
     text_3 = StringProperty()
     source = StringProperty()
 
-
 class MyMainApp(MDApp):
     dialog = None
     dialog_harvest = None
@@ -32,7 +31,8 @@ class MyMainApp(MDApp):
         self.check = False
         self.snackbar = None
         self.i = 0
-        self.dat = -1
+        self.dat = 0
+        self.el_for_data = None
         self.source = {'Яблоня': 'Plants/Яблоня.png', 'Огурец': 'Plants/Огурец.png',
                        'Мандарины': 'Plants/Мандарины.png', 'Груша': 'Plants/Груша.png',
                        'Картофель': 'Plants/Картофель.png', 'Помидор': 'Plants/Помидор.png'}
@@ -150,22 +150,27 @@ class MyMainApp(MDApp):
         self.dialog.text = Garden.notify_data
 
     def build_card(self, *args):
-        self.root_widget.ids.md_list.add_widget(CreateItem(text=self.build_data_card(),
-                                                           text_2=self.build_data_card_2(),
-                                                           text_3=self.build_data_card_3(),
-                                                           source=self.choose_image(Garden.get_image_for_plants())))
+        for _ in range(len(Garden.get_image_for_plants())):
+            controller.set_pop_el()
+            self.root_widget.ids.md_list.add_widget(CreateItem(text=self.build_data_card(),
+                                                               text_2=self.build_data_card_2(),
+                                                               text_3=self.build_data_card_3(),
+                                                               source=self.choose_image()))
 
-    def build_data_card(self, *args):
-        dat = f"{str(Garden.build_data_card(self.dat)[0])}"
+    @staticmethod
+    def build_data_card(*args):
+        dat = f"{str(Garden.get_pop_el()[0])}"
         return dat
 
-    def build_data_card_2(self, *args):
-        dat = f"Количество: {str(Garden.build_data_card(self.dat)[1][0])}"
+    @staticmethod
+    def build_data_card_2(*args):
+        dat = f"Количество: {str(Garden.get_pop_el()[1][0])}"
         return dat
 
-    def choose_image(self, text):
-        if text in self.source:
-            source = self.source[text]
+    def choose_image(self):
+        controller.set_pop_el_for_image()
+        a = Garden.get_pop_el_for_image()
+        source = self.source[a]
         return source
 
     @staticmethod
